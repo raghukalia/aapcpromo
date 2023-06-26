@@ -38,8 +38,8 @@ export default function Home({ products }) {
           products.map(product => {
             const { productTitle,productSubTitle,thumbnail,slug} = product.fields;
              return (
-              <div className='col-md-4 mt-3'>
-              <div className="card" key={product.sys.id}>
+              <div className='col-md-4 mt-3' key={product.sys.id}>
+              <div className="card">
               {/* <img src="..." className="card-img-top" alt="..."></img> */}
               <Image 
                 src={'https:'+thumbnail.fields.file.url}
