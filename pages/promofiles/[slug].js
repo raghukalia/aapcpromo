@@ -26,7 +26,8 @@ return{
         'fields.slug':params.slug
     })
     return{
-        props:{product:items[0]}    
+        props:{product:items[0]},
+        revalidate: 1 
     }
   }
 export default function ProductDetails({product}){
