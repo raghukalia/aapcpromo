@@ -6,28 +6,27 @@ import BlankPage from "../../component/Blankpage";
 const client = createClient({
     space: process.env.CONTENTFUL_SPACE_ID,
     accessToken: process.env.CONTENTFUL_ACCESS_KEY
-})
-export const getStaticPaths = async () => {
+  })
+  export const getStaticPaths = async () => {
     const res = await client.getEntries({
-        content_type: 'product'
+        content_type:'product'
     })
-    const paths = res.items.map(item => {
-        return {
-            params: { slug: item.fields.slug }
+
+    const paths = res.items.map(item =>{
+        return{
+            params:{slug: item.fields.slug}
         }
     })
-    console.log(paths)
     return {
         paths,
-        fallback: true
-    }
-}
-export async function getStaticProps({ params }) {
-    const { items } = await client.getEntries({
-        content_type: 'product',
-        'fields.slug': params.slug
+        fallback:false
+    };
+  }
+  export async function getStaticProps({params}) {
+    const {items} = await client.getEntries({
+        content_type:'product',
+        'fields.slug':params.slug
     })
-    console.log(items)
     if(!items.length){
         return{
             redirect:{
@@ -36,17 +35,18 @@ export async function getStaticProps({ params }) {
             }
         }
     }
-    return {
-        props: { product: items[0] },
+    return{
+        props:{product:items[0]},
         revalidate:1
     }
-}
-export default function ProductDetails({ product }) {
-    if(!product) return <BlankPage/>
-    const { productTitle, productDescription, thumbnail, slug } = product.fields;
+  }
+const ProductDetails = ({product}) => {
+    if(!product) return <BlankPage />;
+    const { productTitle, productDescription, thumbnail } = product.fields;
     console.log(product)
     return (
-        <div>
+    <>
+       <div>
             <div className="card mb-3">
                 <div className="row g-0">
                     <div className="col-md-4">
@@ -61,12 +61,14 @@ export default function ProductDetails({ product }) {
                     <div className="col-md-8">
                         <div className="card-body">
                             <h5 className="card-title">{productTitle}</h5>
-                            <p className="card-text">{documentToReactComponents(productDescription)}</p>
+                            <div className="card-text">{documentToReactComponents(productDescription)}</div>
                             <Link href="/" className="btn btn-primary">Back to Promo</Link>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    </>
+    );
 }
+export default ProductDetails;

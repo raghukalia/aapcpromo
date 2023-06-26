@@ -13,12 +13,11 @@ export async function getStaticProps() {
   const res = await client.getEntries({ content_type: 'product' });
   return {
     props: { products: res.items },
-    revalidate: 1
+    revalidate:1
   }
 }
 const inter = Inter({ subsets: ['latin'] })
 export default function Home({ products }) {
-   console.log(products)
   return (
     <>
       <Head>
