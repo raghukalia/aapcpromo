@@ -13,7 +13,7 @@ export async function getStaticProps() {
   const res = await client.getEntries({ content_type: 'product' });
   return {
     props: { products: res.items },
-    revalidate: false
+    revalidate: 1
   }
 }
 const inter = Inter({ subsets: ['latin'] })

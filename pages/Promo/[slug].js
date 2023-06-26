@@ -17,7 +17,7 @@ export const getStaticPaths = async () => {
     })
     return {
         paths,
-        fallback: false
+        fallback: true
     }
 }
 export async function getStaticProps({ params }) {
@@ -25,16 +25,25 @@ export async function getStaticProps({ params }) {
         content_type: 'product',
         'fields.slug': params.slug
     })
+    if(!items.length){
+        return{
+            redirect:{
+                destination:'/',
+                permanent: false
+            }
+        }
+    }
     return {
-        props: { product: items[0] }
+        props: { product: items[0] },
+        revalidate:1
     }
 }
 export default function ProductDetails({ product }) {
+    if(!product) return(<h1>Loading...</h1>);
     const { productTitle, productDescription, thumbnail, slug } = product.fields;
     console.log(product)
     return (
         <div>
-
             <div className="card mb-3">
                 <div className="row g-0">
                     <div className="col-md-4">
