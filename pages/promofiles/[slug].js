@@ -17,7 +17,7 @@ return{
     })
     return{
         paths,
-        fallback:false
+        fallback:true
     }
   }
   export async function getStaticProps({params}){
@@ -25,6 +25,14 @@ return{
         content_type:'product',
         'fields.slug':params.slug
     })
+    if(!items.length){
+        return{
+            redirect:{
+                desination:'/',
+                permanent:false
+            }
+        }
+    }
     return{
         props:{product:items[0]},
         revalidate: 1 
