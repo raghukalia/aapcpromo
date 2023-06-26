@@ -2,6 +2,7 @@ import { createClient } from "contentful"
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import Link from "next/link";
 import Image from "next/image"
+import BlankPage from "../../component/Blankpage";
 const client = createClient({
     space: process.env.CONTENTFUL_SPACE_ID,
     accessToken: process.env.CONTENTFUL_ACCESS_KEY
@@ -15,6 +16,7 @@ export const getStaticPaths = async () => {
             params: { slug: item.fields.slug }
         }
     })
+    console.log(paths)
     return {
         paths,
         fallback: true
@@ -25,6 +27,7 @@ export async function getStaticProps({ params }) {
         content_type: 'product',
         'fields.slug': params.slug
     })
+    console.log(items)
     if(!items.length){
         return{
             redirect:{
@@ -39,7 +42,7 @@ export async function getStaticProps({ params }) {
     }
 }
 export default function ProductDetails({ product }) {
-    if(!product) return(<h1>Loading...</h1>);
+    if(!product) return <BlankPage/>
     const { productTitle, productDescription, thumbnail, slug } = product.fields;
     console.log(product)
     return (

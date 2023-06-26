@@ -18,7 +18,7 @@ export async function getStaticProps() {
 }
 const inter = Inter({ subsets: ['latin'] })
 export default function Home({ products }) {
-  // console.log(products)
+   console.log(products)
   return (
     <>
       <Head>
